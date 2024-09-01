@@ -1,0 +1,145 @@
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
+            "enableProguardInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "useLegacyPackaging": true
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ],
+      [
+        "onesignal-expo-plugin",
+        {
+          "mode": "production",
+          "smallIcons": ["./assets/ic_stat_onesignal_default.png"]
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to show you vendors based on your current location",
+          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to show you vendors based on your current location",
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to show you vendors based on your current location"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you upload profile picture."
+        }
+      ],
+      "expo-font"
+    ],
+    "name": "Skip AI",
+    "slug": "skip-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "runtimeVersion": "1.0.0",
+      "bundleIdentifier": "com.skipai",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": ["sms", "tel", "mailto", "http", "https"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.skipai",
+      "runtimeVersion": "1.0.0",
+      "intentFilters": [
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "data": {
+            "scheme": "https"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        },
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "data": {
+            "scheme": "http"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        },
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "data": {
+            "scheme": "mailto"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        },
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "data": {
+            "scheme": "tel"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        },
+        {
+          "autoVerify": true,
+          "action": "VIEW",
+          "data": {
+            "scheme": "sms"
+          },
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.RECORD_AUDIO"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "OneSignalNotificationServiceExtension",
+                  "bundleIdentifier": "com.skip-ai.OneSignalNotificationServiceExtension",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.com.skip-ai.onesignal"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "projectId": "cb16683e-beee-40a9-ad83-8ba41b27dc7b"
+      }
+    },
+    "owner": "skip-ai"
+  }
+}

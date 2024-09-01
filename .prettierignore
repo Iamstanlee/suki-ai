@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+coverage
+supabase
+node_modules
+.env
+.expo
+dist
+ios
+android
+

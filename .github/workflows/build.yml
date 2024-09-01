@@ -1,0 +1,93 @@
+name: Build, Preview & Submit with EAS
+on:
+  workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: OS to build on. Ubuntu is faster, MacOS supports iOS builds
+        options:
+          - macos-latest
+          - ubuntu-latest
+        default: ubuntu-latest
+      platform:
+        type: choice
+        description: Platform to build for
+        options:
+          - android
+          - ios
+        default: android
+      profile:
+        type: choice
+        description: Build profile to use
+        options:
+          - development
+          - preview
+          - production
+        default: preview
+      should_submit:
+        type: boolean
+        description: Whether to perform the submit step
+        required: true
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build:
+    runs-on: ${{ github.event.inputs.os }}
+    strategy:
+      matrix:
+        node: [20.15.0]
+    steps:
+      - name: 🏗 Setup repo
+        uses: actions/checkout@v2
+
+      - name: 🏗 Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - name: 🏗 Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: 🏗 Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-version: latest
+          eas-version: latest
+
+      - name: 📦 Install dependencies
+        run: npm install
+
+      - name: 👷 Build app
+        run: |
+          eas build --local \
+            --non-interactive \
+            --platform=${{ github.event.inputs.platform }} \
+            --profile=${{ github.event.inputs.profile }}
+
+      #      - name: 🚢 Submit
+      #        if: ${{ github.event.inputs.should_submit == true}}
+      #        run: eas submit -p ${{ github.event.inputs.platform }} --profile ${{ github.event.inputs.profile }} --path build-*.ipa
+
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create gh release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.tag_version.outputs.new_tag }}-${{ github.event.inputs.platform }}-${{ github.event.inputs.profile }}
+          name: ${{ steps.tag_version.outputs.new_tag }}-${{ github.event.inputs.platform }}-${{ github.event.inputs.profile }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+          artifacts: '*.ipa, *.apk, *.aab, *.app'

@@ -1,0 +1,48 @@
+{
+  "cli": {
+    "version": ">= 7.6.1"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "ios": {
+        "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_APIKEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yZXllaXJpYnZvYnVra296Z2lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ1MzgzNzksImV4cCI6MjAzMDExNDM3OX0.ujWLIA7jcV-SjwT8PyR8HUFqVMUJ5_3IA0LhfgG5uTU",
+        "EXPO_PUBLIC_BASE_URL": "http://10.0.2.2:3333",
+        "EXPO_PUBLIC_BASE_URL_IOS": "http://localhost:3333",
+        "EXPO_PUBLIC_ONESIGNAL_APPID": "67917001-7afd-4ea8-bc25-70c2c24d2ecd",
+        "EXPO_PUBLIC_MAPBOX_PUBLIC_KEY": "pk.eyJ1IjoiZmVhc3RwYXNzLWRldiIsImEiOiJjbHh4OTExamIyaDBwMnJvbXQyeGJ0YmZmIn0.n6w2Tl0IzP29Sh-XnPJjLQ",
+        "EXPO_PUBLIC_MIXPANEL_TOKEN": "ace1c6df2fe3eeae8c89b7d4f53c8b4d"
+      }
+    },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      },
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_APIKEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1yZXllaXJpYnZvYnVra296Z2lxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQ1MzgzNzksImV4cCI6MjAzMDExNDM3OX0.ujWLIA7jcV-SjwT8PyR8HUFqVMUJ5_3IA0LhfgG5uTU",
+        "EXPO_PUBLIC_BASE_URL": "https://prod-api.skip-aihq.com",
+        "EXPO_PUBLIC_ONESIGNAL_APPID": "67917001-7afd-4ea8-bc25-70c2c24d2ecd",
+        "EXPO_PUBLIC_MAPBOX_PUBLIC_KEY": "pk.eyJ1IjoiZmVhc3RwYXNzLWRldiIsImEiOiJjbHh4OTExamIyaDBwMnJvbXQyeGJ0YmZmIn0.n6w2Tl0IzP29Sh-XnPJjLQ",
+        "EXPO_PUBLIC_MIXPANEL_TOKEN": "ace1c6df2fe3eeae8c89b7d4f53c8b4d"
+      },
+      "channel": "preview"
+    },
+    "production": {
+      "extends": "preview",
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "distribution": "store",
+      "channel": "production"
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}
