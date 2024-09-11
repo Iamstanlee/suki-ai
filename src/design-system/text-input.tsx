@@ -10,7 +10,7 @@ import { FpColor } from '@/design-system/color';
 import { Control, Controller, Path, PathValue } from 'react-hook-form';
 import FpText from '@/design-system/text';
 import { ReactNode } from 'react';
-import { FpHSpace } from '@/design-system/spacing';
+import { FpHSpace, FpSpacing } from '@/design-system/spacing';
 import {
   DateTimePicker,
   DateTimePickerMode,
@@ -37,6 +37,8 @@ type FpTextInputProps<T> = {
   autoFocus?: boolean;
   /// allow the input to fit the required viewport
   flexible?: boolean;
+  returnKeyType?: 'done' | 'next' | 'go' | 'search' | 'send';
+  onSubmitEditing?: (event: any) => void;
 };
 
 type FpPickerInputProps<T> = FpTextInputProps<T> & {
@@ -236,9 +238,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
-    // height: 60,
-    borderRadius: 15,
-    borderWidth: 1.2,
+    borderRadius: FpSpacing.sm,
+    borderBottomWidth: 1,
     borderColor: '#000',
     padding: 12,
   },
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    fontFamily: 'DMSans',
+    fontFamily: 'workSans',
     fontSize: 16,
   },
   errorBorder: {

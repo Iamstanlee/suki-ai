@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 40 : 0,
   },
   light: {
-    backgroundColor: FpColor.white,
+    backgroundColor: FpColor.primary200,
   },
   dark: {
     backgroundColor: FpColor.black,

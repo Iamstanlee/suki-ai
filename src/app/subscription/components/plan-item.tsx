@@ -19,9 +19,11 @@ export default function PlanItem(props: SelectableSubscriptionPlan) {
   const [priceStr, titleStr] = useMemo(() => {
     switch (product.subscriptionPeriod) {
       case 'P1Y':
-        return [`${product.priceString} / year`, 'Yearly Plan'];
+        return [product.priceString, 'Annual'];
       case 'P1M':
-        return [`${product.priceString} / month`, 'Monthly Plan'];
+        return [product.priceString, 'Monthly'];
+      default:
+        return [product.priceString, product.subscriptionPeriod];
     }
   }, [product]);
 
@@ -31,20 +33,25 @@ export default function PlanItem(props: SelectableSubscriptionPlan) {
       style={[styles.planItem, props.selected && styles.selectedPlan]}
     >
       <View>
-        <FpText type='h6' color={FpColor.white}>
-          {titleStr}
-        </FpText>
-        <FpText type='spanSm' color={FpColor.white}>
-          {priceStr}
+        <View style={styles.row}>
+          <FpText type='h6' color={FpColor.white}>
+            {titleStr} — {priceStr}
+          </FpText>
+          {product.subscriptionPeriod == 'P1Y' && (
+            <View style={styles.mostPopular}>
+              <FpText type='label' color={FpColor.white} bold>
+                Best Offer
+              </FpText>
+            </View>
+          )}
+        </View>
+        <FpText type='label' color={FpColor.gray600}>
+          3 Days Free Trial, Cancel anytime.
         </FpText>
       </View>
-      {product.subscriptionPeriod == 'P1Y' && (
-        <View style={styles.mostPopular}>
-          <FpText type='label' color={FpColor.primary500}>
-            Most Popular
-          </FpText>
-        </View>
-      )}
+      <FpText type='label' color={FpColor.white}>
+        Billed {product.subscriptionPeriod == 'P1Y' ? 'annually' : 'monthly'}
+      </FpText>
     </Clickable>
   );
 }
@@ -75,28 +82,38 @@ export function PlanItem_Skeleton() {
           opacity,
         }}
       />
+      <FpVSpace.max />
+      <Animated.View
+        style={{
+          height: 8,
+          width: '30%',
+          backgroundColor: FpColor.gray600,
+          opacity,
+        }}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   planItem: {
-    width: '48%',
+    width: '100%',
     height: 138,
     padding: FpSpacing.md,
-    borderWidth: 1.0,
+    marginBottom: FpSpacing.md,
+    borderWidth: 0.5,
     borderColor: FpColor.white,
     borderRadius: 10,
     justifyContent: 'space-between',
   },
+  row: { flexDirection: 'row', gap: FpSpacing.md, alignItems: 'center' },
   selectedPlan: {
     backgroundColor: FpColor.primary500,
     borderColor: FpColor.primary500,
   },
   mostPopular: {
-    backgroundColor: FpColor.white,
-    padding: FpSpacing.xs + 3,
-    borderRadius: 16,
-    alignSelf: 'flex-end',
+    backgroundColor: FpColor.primary500,
+    padding: FpSpacing.xs,
+    borderRadius: FpSpacing.xs,
   },
 });

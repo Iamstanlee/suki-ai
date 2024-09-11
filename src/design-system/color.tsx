@@ -1,7 +1,5 @@
 export const FpColor = {
-  primary500: '#6848F5',
-  primary400: '#7F6FF3',
-  primary300: '#A39CF1',
+  primary500: '#536DFE',
   primary200: '#C7C4EF',
   primary100: '#F0ECFF',
   purple100: '#E9DBFF',

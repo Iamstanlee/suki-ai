@@ -3,25 +3,18 @@ import FpText from '@/design-system/text';
 import { Image, Linking, StyleSheet, View } from 'react-native';
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
 import { FpBackIconButton, FpButton } from '@/design-system/button';
-import { useNavigation } from '@react-navigation/native';
 import Clickable from '@/design-system/components/clickable';
 import { notTrue } from '@/core/utils/boolean';
 import { ActionSheet } from 'react-native-ui-lib';
 import { useState } from 'react';
-import { SeeYouSoonPageTag } from '@/app/settings/see-you-soon.page';
 import { useSnackBar } from '@/core/context/snackbar-context';
-import { SubscriptionPageTag } from '@/app/subscription/subscription.page';
-import { AccountSettingsPageTag } from '@/app/settings/account-settings.page';
-import { EditProfileSettingsPageTag } from '@/app/settings/edit-profile-settings.page';
-import { NotificationSettingsPageTag } from '@/app/settings/notification-settings.page';
 import { useShareApp } from '@/app/settings/hooks/use-share-app';
 
 export const SettingsPageTag = 'Settings';
 
-export default function SettingsPage() {
+export default function SettingsPage({ navigation }) {
   const [actionSheetOpen, setActionSheetOpen] = useState(notTrue);
   const snackBar = useSnackBar();
-  const navigation = useNavigation();
   const { shareReferralCode } = useShareApp();
 
   const openUrl = async (url: string) => {
@@ -56,33 +49,24 @@ export default function SettingsPage() {
 
       <_Item
         title='Edit Profile'
-        onPress={() =>
-          // @ts-ignore
-          navigation.navigate(EditProfileSettingsPageTag)
-        }
+        onPress={() => navigation.navigate('EditProfileSettingsPageTag')}
       />
 
       <_Item
         title='Notification'
-        onPress={() =>
-          // @ts-ignore
-          navigation.navigate(NotificationSettingsPageTag)
-        }
+        onPress={() => navigation.navigate('NotificationSettingsPageTag')}
       />
 
       <_Item
         title='Account Settings'
-        onPress={() =>
-          // @ts-ignore
-          navigation.navigate(AccountSettingsPageTag)
-        }
+        onPress={() => navigation.navigate('AccountSettingsPageTag')}
       />
 
       <_Item
         title='Subscription/Plan'
         onPress={() =>
           // @ts-ignore
-          navigation.navigate(SubscriptionPageTag, { isUpdate: true })
+          navigation.navigate('SubscriptionPageTag', { isUpdate: true })
         }
       />
 

@@ -8,16 +8,12 @@ import { FpColor } from '@/design-system/color';
 import { UserConsumer, UserContextProvider } from '@/core/context/user-context';
 import { SnackBarContextProvider } from '@/core/context/snackbar-context';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import { ActivationContextProvider } from '@/app/activation/context/activation-context';
 import AppRouter from '@/core/router/app-router';
-
-// const queryClient = new QueryClient();
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
-    DMSerifDisp: require('./assets/fonts/DMSerifDisp.ttf'),
-    DMSans: require('./assets/fonts/DMSans.ttf'),
-    DMSansBold: require('./assets/fonts/DMSans-Bold.ttf'),
+    workSans: require('./assets/fonts/workSans.ttf'),
+    atip: require('./assets/fonts/Atyp.ttf'),
   });
 
   if (!fontsLoaded && !fontError) {
@@ -32,13 +28,7 @@ export default function App() {
             <UserContextProvider>
               <GestureHandlerRootView style={styles.container}>
                 <BottomSheetModalProvider>
-                  <ActivationContextProvider>
-                    <UserConsumer>
-                      {({ bootstrapState }) => (
-                        <AppRouter bootstrapState={bootstrapState} />
-                      )}
-                    </UserConsumer>
-                  </ActivationContextProvider>
+                  <UserConsumer>{() => <AppRouter />}</UserConsumer>
                 </BottomSheetModalProvider>
               </GestureHandlerRootView>
             </UserContextProvider>

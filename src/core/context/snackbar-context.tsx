@@ -106,7 +106,7 @@ export const useSnackBar = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: FpSpacing.sm,
+    padding: FpSpacing.md,
     margin: FpSpacing.sm,
     borderRadius: FpSpacing.xs,
     flexDirection: 'row',

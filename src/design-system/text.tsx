@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { FpColor } from '@/design-system/color';
 
 export type FpTextProps = {
   children: ReactNode;
@@ -30,6 +31,7 @@ export type FpTextProps = {
   p24?: boolean;
   paddingAxis?: 'horizontal' | 'vertical';
   numberOfLines?: number;
+  underline?: boolean;
 };
 
 export default function FpText({
@@ -50,13 +52,14 @@ export default function FpText({
   paddingAxis,
   numberOfLines,
   onPress,
+  underline,
 }: FpTextProps) {
   const padding = p8 ? 8 : p12 ? 12 : p16 ? 16 : p20 ? 20 : p24 ? 24 : 0;
   const _text = (
     <Text
       numberOfLines={numberOfLines}
       style={{
-        color,
+        color: color ?? FpColor.black,
         opacity,
         ...(paddingAxis === 'vertical'
           ? { paddingVertical: padding }
@@ -65,6 +68,7 @@ export default function FpText({
         ...styles[type ?? 'span'],
         ...(link && styles.link),
         ...(bold && styles.bold),
+        ...(underline && styles.underline),
       }}
     >
       {children}
@@ -81,60 +85,63 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 40,
     lineHeight: 40,
-    fontFamily: 'DMSerifDisp',
+    fontFamily: 'atip',
   },
   h2: {
     fontSize: 35,
     lineHeight: 40,
-    fontFamily: 'DMSerifDisp',
+    fontFamily: 'atip',
   },
   h3: {
     lineHeight: 40,
     fontSize: 30,
-    fontFamily: 'DMSerifDisp',
+    fontFamily: 'atip',
   },
   h4: {
     fontSize: 25,
     lineHeight: 40,
-    fontFamily: 'DMSerifDisp',
+    fontFamily: 'workSans',
   },
   h5: {
     fontSize: 20,
     lineHeight: 20,
-    fontFamily: 'DMSerifDisp',
+    fontFamily: 'workSans',
   },
   h6: {
     fontSize: 16,
     lineHeight: 20,
-    fontFamily: 'DMSerifDisp',
+    fontFamily: 'workSans',
   },
   span: {
     fontSize: 16,
-    fontFamily: 'DMSans',
+    fontFamily: 'workSans',
   },
   spanSm: {
     fontSize: 14,
-    fontFamily: 'DMSans',
+    fontFamily: 'workSans',
   },
   spanXs: {
     fontSize: 10,
-    fontFamily: 'DMSans',
+    fontFamily: 'workSans',
   },
   label: {
     fontSize: 12,
-    fontFamily: 'DMSans',
+    fontFamily: 'workSans',
   },
   button: {
     fontSize: 17,
-    fontFamily: 'DMSansBold',
+    fontFamily: 'workSans',
   },
   bold: {
     fontWeight: '500',
-    fontFamily: 'DMSansBold',
+    fontFamily: 'workSans',
   },
   link: {
-    fontFamily: 'DMSans',
+    fontFamily: 'workSans',
     color: '#6848F5',
+    textDecorationLine: 'underline',
+  },
+  underline: {
     textDecorationLine: 'underline',
   },
 });

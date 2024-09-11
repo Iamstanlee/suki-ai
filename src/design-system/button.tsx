@@ -96,7 +96,7 @@ export const FpButton = ({
       break;
     default:
       if (variant !== 'outlined') {
-        bgColor = FpColor.primary500;
+        bgColor = FpColor.black;
         textColor = FpColor.white;
       } else {
         bgColor = 'transparent';

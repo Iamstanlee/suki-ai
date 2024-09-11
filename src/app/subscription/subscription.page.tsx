@@ -3,30 +3,32 @@ import { StyleSheet, View } from 'react-native';
 import FpText from '@/design-system/text';
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
 import { FpColor } from '@/design-system/color';
-import { useState } from 'react';
 import { FpButton } from '@/design-system/button';
 import { useUser } from '@/core/context/user-context';
 import { useInAppPurchaseMutation } from '@/app/subscription/hooks/use-inapp-purchase-mutation';
 import { useGetOfferingsQuery } from '@/app/subscription/hooks/use-inapp-purchase-query';
 import { PurchasesPackage } from 'react-native-purchases';
-import PerkRow from '@/app/subscription/components/perk-item';
 import PlanItem, {
   PlanItem_Skeleton,
 } from '@/app/subscription/components/plan-item';
+import { Check } from '@/design-system/icons';
+import Clickable from '@/design-system/components/clickable';
+import { useMemo } from 'react';
 
 export const SubscriptionPageTag = 'Subscription';
 
 export default function SubscriptionPage({ route }) {
-  const isUpdate = route.params?.isUpdate;
+  const params = route.params;
   const { saveBootstrapState } = useUser();
   const { isLoading, isError, offerings, retryFetch } = useGetOfferingsQuery();
-  const { purchaseProduct, isPurchaseProductLoading } =
-    useInAppPurchaseMutation();
-  const [selectedPackage, setSelectedPackage] = useState(() => {
-    if (offerings) {
-      return offerings[0];
-    }
-  });
+  const {
+    purchaseProduct,
+    isPurchaseProductLoading,
+    restorePurchase,
+    isRestorePurchaseLoading,
+  } = useInAppPurchaseMutation();
+
+  console.log('params', params);
 
   const onPurchase = (subscriptionPackage: PurchasesPackage) => {
     purchaseProduct(
@@ -35,35 +37,44 @@ export default function SubscriptionPage({ route }) {
     );
   };
 
-  return (
-    <FpScaffold scrollable type='dark' withBackButton={isUpdate}>
-      <FpVSpace.sm />
-      <FpText type='h5' center color={FpColor.white}>
-        FeastPass
-      </FpText>
-      <View style={{ paddingHorizontal: FpSpacing.lg }}>
-        <FpText type='label' center color={FpColor.white} opacity={0.8}>
-          Simultaneously boosting the local economy while getting fantastic
-          discounts.
-        </FpText>
-      </View>
-      <FpVSpace.md />
-      <View style={styles.perksContainer}>
-        <PerkRow />
-      </View>
-      <FpVSpace.md />
-      <FpText type='h5' center color={FpColor.white}>
-        Choose a Plan
-      </FpText>
-      <View style={{ paddingHorizontal: FpSpacing.lg }}>
-        <FpText type='label' center color={FpColor.white} opacity={0.8}>
-          Save an average $12 when you subscribe annually
-        </FpText>
-      </View>
-      <FpVSpace.md />
+  const onRestorePurchase = () => {
+    restorePurchase(undefined, {
+      onSuccess: () => {
+        saveBootstrapState();
+      },
+    });
+  };
 
+  const isPurchaseOrRestoreLoading = useMemo(
+    () => [isPurchaseProductLoading, isRestorePurchaseLoading].some(Boolean),
+    [isPurchaseProductLoading, isRestorePurchaseLoading],
+  );
+
+  return (
+    <FpScaffold scrollable type='dark' withBackButton>
+      <FpText type='h5' color={FpColor.white}>
+        Get unlimited reading with a subscription.
+      </FpText>
+      <FpVSpace.sm />
+      <FpText type='label' color={FpColor.primary200}>
+        SUBSCRIBER BENEFITS:
+      </FpText>
+      <FpVSpace.sm />
+      {[
+        'Curated news feeds from your preferred and \ngoto sources',
+        'AI short sentence insights and summary',
+        'AI powered news feed that learns from your reading habits',
+      ].map((benefit) => (
+        <View key={benefit} style={styles.benefitsRow}>
+          <Check color={FpColor.primary200} size={18} />
+          <FpText type='spanSm' color={FpColor.gray300}>
+            {benefit}
+          </FpText>
+        </View>
+      ))}
+      <FpVSpace.md />
       {isLoading && (
-        <View style={styles.planRow}>
+        <View>
           <PlanItem_Skeleton />
           <PlanItem_Skeleton />
         </View>
@@ -75,32 +86,32 @@ export default function SubscriptionPage({ route }) {
         </FpText>
       )}
 
-      <View style={styles.planRow}>
+      <View>
         {offerings?.map((offering, index) => (
           <PlanItem
             {...offering}
             key={index}
-            selected={selectedPackage?.identifier === offering.identifier}
-            onPress={(pkg) => setSelectedPackage(pkg)}
+            onPress={(pkg) => onPurchase(pkg)}
           />
         ))}
+        <Clickable onPress={onRestorePurchase}>
+          <FpText type='spanXs' color={FpColor.primary100}>
+            Have existing subscription?
+          </FpText>
+          <FpText type='spanSm' color={FpColor.primary100} underline>
+            Restore purchase.
+          </FpText>
+        </Clickable>
       </View>
-      <FpVSpace.xl />
       {isError && (
-        <FpButton onPress={() => retryFetch()} type='light'>
-          Retry
-        </FpButton>
+        <>
+          <FpVSpace.lg />
+          <FpButton onPress={() => retryFetch()} type='light'>
+            Retry
+          </FpButton>
+        </>
       )}
-      {offerings && (
-        <FpButton
-          isLoading={isPurchaseProductLoading}
-          onPress={() => onPurchase(selectedPackage)}
-          type='light'
-        >
-          Select Plan
-        </FpButton>
-      )}
-      <FpVSpace.xxl />
+      <FpVSpace.xl />
     </FpScaffold>
   );
 }
@@ -113,19 +124,10 @@ const styles = StyleSheet.create({
     padding: FpSpacing.sm,
     borderRadius: 10,
   },
-  perkRow: {
+  benefitsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  perkItem: {
-    flexDirection: 'row',
-    width: '45%',
-    paddingHorizontal: FpSpacing.md,
-    paddingVertical: FpSpacing.sm,
-  },
-  planRow: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    gap: FpSpacing.md,
+    alignItems: 'center',
+    marginBottom: FpSpacing.sm,
   },
 });

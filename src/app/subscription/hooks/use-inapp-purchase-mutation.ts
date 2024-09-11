@@ -30,8 +30,23 @@ export const useInAppPurchaseMutation = () => {
           subscriptionPrice: priceString,
         });
         snackBar.SUCCESS(
-          'Your subscription to FeastPass Membership is successful!',
+          'Your subscription to Suki was successful. Enjoy unlimited reading!',
         );
+      },
+      onError: (error) => snackBar.ERROR(error.message),
+    });
+
+  const { mutate: restorePurchase, isPending: isRestorePurchaseLoading } =
+    useMutation({
+      mutationFn: async () => {
+        try {
+          const customerInfo = await Purchases.restorePurchases();
+          if (typeof customerInfo.entitlements.active['Pro'] !== 'undefined') {
+            return customerInfo;
+          }
+        } catch (e) {
+          throw new Error(e.message ?? 'Failed to restore purchase');
+        }
       },
       onError: (error) => snackBar.ERROR(error.message),
     });
@@ -39,5 +54,7 @@ export const useInAppPurchaseMutation = () => {
   return {
     purchaseProduct,
     isPurchaseProductLoading,
+    restorePurchase,
+    isRestorePurchaseLoading,
   };
 };
