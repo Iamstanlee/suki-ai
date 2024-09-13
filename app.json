@@ -41,7 +41,7 @@
       "expo-font"
     ],
     "name": "Skip AI",
-    "slug": "skip-ai",
+    "slug": "suki-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -126,10 +126,10 @@
               "appExtensions": [
                 {
                   "targetName": "OneSignalNotificationServiceExtension",
-                  "bundleIdentifier": "com.skip-ai.OneSignalNotificationServiceExtension",
+                  "bundleIdentifier": "com.suki-ai.OneSignalNotificationServiceExtension",
                   "entitlements": {
                     "com.apple.security.application-groups": [
-                      "group.com.skip-ai.onesignal"
+                      "group.com.suki-ai.onesignal"
                     ]
                   }
                 }
@@ -140,6 +140,6 @@
         "projectId": "cb16683e-beee-40a9-ad83-8ba41b27dc7b"
       }
     },
-    "owner": "skip-ai"
+    "owner": "suki-ai"
   }
 }
