@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useSnackBar } from '@/core/context/snackbar-context';
 import Purchases, { PurchasesPackage } from 'react-native-purchases';
 import { fpAnalyticsEventIds, mixpanel } from '@/core/constants';
+import { subscriptionEntitlementId } from '@/core/context/user-context';
 
 export const useInAppPurchaseMutation = () => {
   const snackBar = useSnackBar();
@@ -41,7 +42,11 @@ export const useInAppPurchaseMutation = () => {
       mutationFn: async () => {
         try {
           const customerInfo = await Purchases.restorePurchases();
-          if (typeof customerInfo.entitlements.active['Pro'] !== 'undefined') {
+          if (
+            typeof customerInfo.entitlements.active[
+              subscriptionEntitlementId
+            ] !== 'undefined'
+          ) {
             return customerInfo;
           }
         } catch (e) {

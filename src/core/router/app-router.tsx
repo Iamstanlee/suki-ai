@@ -20,30 +20,50 @@ import NewsSourceSelectionPage, {
 import PreferredCategorySelectionPage, {
   PreferredCategorySelectionPageTag,
 } from '@/app/onboarding/preferred-category-selection.page';
+import { IBootstrapState } from '@/core/context/user-context';
+import BookmarkPage, { BookmarkPageTag } from '@/app/bookmark/bookmark.page';
 
 export const StackRouter = createNativeStackNavigator();
 export const TabRouter = createBottomTabNavigator();
 
-export default function AppRouter() {
-  return (
-    <StackRouter.Navigator screenOptions={{ headerShown: notTrue }}>
-      <StackRouter.Screen name={OnboardingPageTag} component={OnboardingPage} />
-      <StackRouter.Screen
-        name={NewsSourceSelectionPageTag}
-        component={NewsSourceSelectionPage}
-      />
-      <StackRouter.Screen
-        name={PreferredCategorySelectionPageTag}
-        component={PreferredCategorySelectionPage}
-      />
-      <StackRouter.Screen name={SettingsPageTag} component={SettingsPage} />
-      <StackRouter.Screen name='_tab' component={_TabNavigator} />
-      <StackRouter.Screen
-        name={SubscriptionPageTag}
-        component={SubscriptionPage}
-      />
-    </StackRouter.Navigator>
-  );
+export default function AppRouter({
+  bootstrapState,
+}: {
+  bootstrapState: IBootstrapState;
+}) {
+  return bootstrapState.select({
+    'authenticated': (
+      <StackRouter.Navigator screenOptions={{ headerShown: notTrue }}>
+        <StackRouter.Screen name='_tab' component={_TabNavigator} />
+        <StackRouter.Screen
+          navigationKey={`${bootstrapState.type}`}
+          name={SubscriptionPageTag}
+          component={SubscriptionPage}
+        />
+      </StackRouter.Navigator>
+    ),
+    'no-active-subscription': (
+      <StackRouter.Navigator screenOptions={{ headerShown: notTrue }}>
+        <StackRouter.Screen
+          name={OnboardingPageTag}
+          component={OnboardingPage}
+        />
+        <StackRouter.Screen
+          name={NewsSourceSelectionPageTag}
+          component={NewsSourceSelectionPage}
+        />
+        <StackRouter.Screen
+          name={PreferredCategorySelectionPageTag}
+          component={PreferredCategorySelectionPage}
+        />
+        <StackRouter.Screen
+          navigationKey={`${bootstrapState.type}`}
+          name={SubscriptionPageTag}
+          component={SubscriptionPage}
+        />
+      </StackRouter.Navigator>
+    ),
+  });
 }
 
 function _TabNavigator() {
@@ -52,30 +72,21 @@ function _TabNavigator() {
   return (
     <TabRouter.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color }) => {
+        tabBarIcon: ({ color }) => {
           switch (route.name) {
             case HomePageTag:
-              return (
-                <HouseSimple
-                  weight={focused ? 'fill' : 'regular'}
-                  color={color}
-                />
-              );
-            case 'Favorite':
-              return (
-                <Heart weight={focused ? 'fill' : 'regular'} color={color} />
-              );
-            case 'Settings':
-              return (
-                <GearSix weight={focused ? 'fill' : 'regular'} color={color} />
-              );
+              return <HouseSimple weight={'fill'} color={color} />;
+            case BookmarkPageTag:
+              return <Heart weight={'fill'} color={color} />;
+            case SettingsPageTag:
+              return <GearSix weight={'fill'} color={color} />;
           }
         },
         tabBarStyle: {
           height: Platform.OS === 'ios' ? 90 : 60,
           elevation: 2,
           borderTopWidth: 0.5,
-          backgroundColor: FpColor.white,
+          backgroundColor: FpColor.primary200,
           borderTopColor: FpColor.gray500,
           paddingTop: FpSpacing.sm,
           paddingBottom:
@@ -85,13 +96,13 @@ function _TabNavigator() {
           fontFamily: 'workSans',
         },
         tabBarActiveTintColor: FpColor.primary500,
-        tabBarInactiveTintColor: FpColor.gray500,
+        tabBarInactiveTintColor: FpColor.black100,
         headerShown: notTrue,
       })}
     >
       <TabRouter.Screen name={HomePageTag} component={HomePage} />
-      <TabRouter.Screen name={'Favorite'} component={HomePage} />
-      <TabRouter.Screen name={'Settings'} component={HomePage} />
+      <TabRouter.Screen name={BookmarkPageTag} component={BookmarkPage} />
+      <TabRouter.Screen name={SettingsPageTag} component={SettingsPage} />
     </TabRouter.Navigator>
   );
 }

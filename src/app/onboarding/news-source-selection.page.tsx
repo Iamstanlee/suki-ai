@@ -29,7 +29,7 @@ export default function NewsSourceSelectionPage({ navigation }) {
         Let's get you setup!, Start by selecting your favourite and goto news
         sources
       </FpText>
-      <FpText type='spanSm' color={FpColor.gray600}>
+      <FpText type='spanSm' color={FpColor.black100}>
         You can always change or update these later
       </FpText>
       <FpVSpace.lg />

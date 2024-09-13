@@ -113,17 +113,17 @@ const items: OnboardingItem[] = [
   {
     title: 'Daily feed of insights extracted from your go-to sources',
     description:
-      'Get the latest insights from your favorite sources in one place',
+      'You don’t have to read everything, just the important bits, Get the latest insights from your goto sources in one place, Curated and summarized for you with AI.',
     image: require('@/assets/onboarding/o1.png'),
   },
   {
-    title: 'All your goto news sources in one scroll powered by AI',
+    title: 'Your knowledge base, Back in one scroll',
     description:
       'Suki is the mobile app that brings together your newsletters, research papers, podcasts, and more, in one place',
     image: require('@/assets/onboarding/o2.png'),
   },
   {
-    title: 'Stay informed, stay ahead ',
+    title: 'Stay informed, stay ahead',
     description:
       'No more switching between apps/websites to get your daily dose of insights. Suki has you covered',
     image: require('@/assets/onboarding/o3.png'),

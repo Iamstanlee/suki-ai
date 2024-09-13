@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   h4: {
     fontSize: 25,
     lineHeight: 40,
-    fontFamily: 'workSans',
+    fontFamily: 'atip',
   },
   h5: {
     fontSize: 20,

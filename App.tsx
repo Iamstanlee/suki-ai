@@ -28,7 +28,11 @@ export default function App() {
             <UserContextProvider>
               <GestureHandlerRootView style={styles.container}>
                 <BottomSheetModalProvider>
-                  <UserConsumer>{() => <AppRouter />}</UserConsumer>
+                  <UserConsumer>
+                    {({ bootstrapState }) => (
+                      <AppRouter bootstrapState={bootstrapState} />
+                    )}
+                  </UserConsumer>
                 </BottomSheetModalProvider>
               </GestureHandlerRootView>
             </UserContextProvider>

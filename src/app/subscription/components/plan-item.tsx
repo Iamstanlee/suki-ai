@@ -45,7 +45,7 @@ export default function PlanItem(props: SelectableSubscriptionPlan) {
             </View>
           )}
         </View>
-        <FpText type='label' color={FpColor.gray600}>
+        <FpText type='label' color={FpColor.gray500}>
           3 Days Free Trial, Cancel anytime.
         </FpText>
       </View>
@@ -63,13 +63,13 @@ export function PlanItem_Skeleton() {
     <View
       style={[
         styles.planItem,
-        { justifyContent: 'flex-start', borderColor: FpColor.gray600 },
+        { justifyContent: 'flex-start', borderColor: FpColor.gray500 },
       ]}
     >
       <Animated.View
         style={{
           height: 16,
-          backgroundColor: FpColor.gray600,
+          backgroundColor: FpColor.gray500,
           opacity,
         }}
       />
@@ -78,7 +78,7 @@ export function PlanItem_Skeleton() {
         style={{
           height: 8,
           width: '50%',
-          backgroundColor: FpColor.gray600,
+          backgroundColor: FpColor.gray500,
           opacity,
         }}
       />
@@ -87,7 +87,7 @@ export function PlanItem_Skeleton() {
         style={{
           height: 8,
           width: '30%',
-          backgroundColor: FpColor.gray600,
+          backgroundColor: FpColor.gray500,
           opacity,
         }}
       />

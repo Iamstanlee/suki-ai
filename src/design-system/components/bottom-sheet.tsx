@@ -13,12 +13,11 @@ import {
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
 import { FpColor } from '@/design-system/color';
-import { notTrue } from '@/core/utils/boolean';
 import { FpSpacing } from '@/design-system/spacing';
 
 export type FpBottomSheetModalProps = {
   open: boolean;
-  onChange: (state: boolean) => void;
+  onClose: () => void;
   snapPoints?: [string, string];
   children?: ReactNode;
   scrollable?: boolean;
@@ -27,7 +26,7 @@ export type FpBottomSheetModalProps = {
 
 export default function FpBottomSheetModal({
   open,
-  onChange,
+  onClose,
   initialSnapIndex,
   snapPoints,
   scrollable,
@@ -38,28 +37,32 @@ export default function FpBottomSheetModal({
   useEffect(() => {
     if (open) {
       bottomSheetModalRef.current?.present();
-    } else {
-      bottomSheetModalRef.current?.dismiss();
     }
   }, [open]);
 
   const handleSheetChanges = useCallback((index: number) => {
-    if (index === -1) onChange(notTrue);
+    if (index === -1) onDismiss();
+  }, []);
+
+  const onDismiss = useCallback(() => {
+    bottomSheetModalRef.current?.dismiss();
+    onClose();
   }, []);
 
   return (
     <BottomSheetModal
       snapPoints={useMemo(() => snapPoints ?? ['25%', '50%'], [snapPoints])}
-      index={initialSnapIndex ?? 1}
+      index={initialSnapIndex}
       ref={bottomSheetModalRef}
       onChange={handleSheetChanges}
       backgroundStyle={styles.modelBg}
       backdropComponent={(props) => (
         <BottomSheetBackdrop
           {...props}
-          opacity={0.22}
-          enableTouchThrough={true}
-          onPress={() => onChange(notTrue)}
+          opacity={0.25}
+          disappearsOnIndex={-1}
+          appearsOnIndex={0}
+          onPress={onDismiss}
         />
       )}
     >
@@ -76,11 +79,12 @@ export default function FpBottomSheetModal({
 
 const styles = StyleSheet.create({
   modelBg: {
-    borderWidth: 0.5,
+    backgroundColor: FpColor.primary100,
     borderColor: FpColor.gray500,
   },
   container: {
     flex: 1,
     padding: FpSpacing.md,
+    backgroundColor: FpColor.primary100,
   },
 });

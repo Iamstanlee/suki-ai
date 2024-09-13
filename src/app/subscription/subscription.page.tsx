@@ -28,7 +28,7 @@ export default function SubscriptionPage({ route }) {
     isRestorePurchaseLoading,
   } = useInAppPurchaseMutation();
 
-  console.log('params', params);
+  console.log('onBoardingParams', params);
 
   const onPurchase = (subscriptionPackage: PurchasesPackage) => {
     purchaseProduct(
@@ -61,9 +61,9 @@ export default function SubscriptionPage({ route }) {
       </FpText>
       <FpVSpace.sm />
       {[
-        'Curated news feeds from your preferred and \ngoto sources',
+        'Curated feed of valuable insights from your preferred and \ngoto sources',
         'AI short sentence insights and summary',
-        'AI powered news feed that learns from your reading habits',
+        'AI powered feeds that learns from your reading habits',
       ].map((benefit) => (
         <View key={benefit} style={styles.benefitsRow}>
           <Check color={FpColor.primary200} size={18} />
@@ -94,6 +94,7 @@ export default function SubscriptionPage({ route }) {
             onPress={(pkg) => onPurchase(pkg)}
           />
         ))}
+        <FpVSpace.sm />
         <Clickable onPress={onRestorePurchase}>
           <FpText type='spanXs' color={FpColor.primary100}>
             Have existing subscription?

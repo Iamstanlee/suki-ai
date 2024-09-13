@@ -1,4 +1,3 @@
-import { Session } from '@supabase/supabase-js';
 import { User } from '@/core/types/user';
 import {
   createContext,
@@ -16,10 +15,7 @@ import {
 import { OneSignal } from 'react-native-onesignal';
 import { useNavigation } from '@react-navigation/native';
 import { handleNotificationClickOnSystemTray } from '@/core/push-notification';
-import Purchases, {
-  LOG_LEVEL,
-  PurchasesEntitlementInfo,
-} from 'react-native-purchases';
+import Purchases, { PurchasesEntitlementInfo } from 'react-native-purchases';
 
 export type BootstrapStateType =
   | 'loading'
@@ -69,19 +65,10 @@ export const BootstrapState = {
 } as const;
 
 type UserState = {
-  user?: User;
-  session?: Session;
+  userId?: string;
   bootstrapState?: IBootstrapState;
-  signupPending?: boolean;
-  saveLoginState?: (
-    user: User,
-    session: Session,
-    onBootstrap?: boolean,
-  ) => void;
   saveBootstrapState?: (state?: IBootstrapState) => void;
   updateUserData?: (user?: User) => void;
-  logout?: () => void;
-  invalidateAndRefresh?: () => void;
   subscription?: PurchasesEntitlementInfo;
 };
 
@@ -92,6 +79,8 @@ const initialUserState: UserState = {
 export const UserContext = createContext<Partial<UserState>>(initialUserState);
 
 export const UserConsumer = UserContext.Consumer;
+
+export const subscriptionEntitlementId = 'Pro';
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState<Partial<UserState>>(initialUserState);
@@ -106,7 +95,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     );
 
     // RevenueCat
-    Purchases.setLogLevel(LOG_LEVEL.VERBOSE);
     Purchases.configure({
       apiKey: revenueCatKey,
     });
@@ -117,37 +105,51 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   // Check subscription
-  // useEffect(() => {
-  //   if (state.user) {
-  //     (async () => {
-  //       try {
-  //         const customerInfo = await Purchases.getCustomerInfo();
-  //         if (
-  //           typeof customerInfo.entitlements.active[
-  //             subscriptionEntitlementId
-  //             ] !== 'undefined'
-  //         ) {
-  //           const subscription =
-  //             customerInfo.entitlements.active[subscriptionEntitlementId];
-  //           setState({ ...state, subscription });
-  //           mixpanel.getPeople().set({
-  //             membership: subscription.productIdentifier
-  //           });
-  //         } else {
-  //           setState({
-  //             ...state,
-  //             bootstrapState: BootstrapState.noActiveSubscription
-  //           });
-  //         }
-  //       } catch (e) {
-  //         setState({
-  //           ...state,
-  //           bootstrapState: BootstrapState.noActiveSubscription
-  //         });
-  //       }
-  //     })();
-  //   }
-  // }, [state.user]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const [userId, customerInfo] = await Promise.all([
+          Purchases.getAppUserID(),
+          Purchases.getCustomerInfo(),
+        ]);
+        if (process.env.NODE_ENV == 'development') {
+          setState({
+            ...state,
+            userId,
+            bootstrapState: BootstrapState.authenticated,
+          });
+          return;
+        }
+        if (
+          typeof customerInfo.entitlements.active[subscriptionEntitlementId] !==
+          'undefined'
+        ) {
+          const subscription =
+            customerInfo.entitlements.active[subscriptionEntitlementId];
+          setState({
+            ...state,
+            userId,
+            subscription,
+            bootstrapState: BootstrapState.authenticated,
+          });
+          mixpanel.getPeople().set({
+            membership: subscription.productIdentifier,
+          });
+        } else {
+          setState({
+            ...state,
+            userId,
+            bootstrapState: BootstrapState.noActiveSubscription,
+          });
+        }
+      } catch (e) {
+        setState({
+          ...state,
+          bootstrapState: BootstrapState.noActiveSubscription,
+        });
+      }
+    })();
+  }, []);
 
   const saveBootstrapState = (state?: IBootstrapState) => {
     setState({
