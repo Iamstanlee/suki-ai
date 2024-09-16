@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { useRef, useState } from 'react';
-import { notTrue } from '@/core/utils/boolean';
+
 import { FpButton } from '@/design-system/button';
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
 import FpScaffold from '@/design-system/scaffold';
@@ -28,7 +28,7 @@ export default function OnboardingPage({ navigation }) {
         data={items}
         horizontal
         pagingEnabled
-        showsHorizontalScrollIndicator={notTrue}
+        showsHorizontalScrollIndicator={false}
         initialNumToRender={1}
         onViewableItemsChanged={({ viewableItems }) => {
           if (!viewableItems[0]) return;

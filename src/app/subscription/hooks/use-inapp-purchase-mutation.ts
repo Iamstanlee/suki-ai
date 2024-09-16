@@ -2,10 +2,21 @@ import { useMutation } from '@tanstack/react-query';
 import { useSnackBar } from '@/core/context/snackbar-context';
 import Purchases, { PurchasesPackage } from 'react-native-purchases';
 import { fpAnalyticsEventIds, mixpanel } from '@/core/constants';
-import { subscriptionEntitlementId } from '@/core/context/user-context';
+import {
+  subscriptionEntitlementId,
+  useUser,
+} from '@/core/context/user-context';
+import { User_prefs } from '@/core/types/user_prefs';
+import { useHttp } from '@/core/hooks/use-http';
 
 export const useInAppPurchaseMutation = () => {
+  const { userId } = useUser();
   const snackBar = useSnackBar();
+  const http = useHttp();
+
+  const saveUserPrefs = async (prefs: User_prefs) => {
+    await http.post(`/users/${userId}/prefs`, prefs);
+  };
 
   const { mutate: purchaseProduct, isPending: isPurchaseProductLoading } =
     useMutation({
@@ -13,6 +24,7 @@ export const useInAppPurchaseMutation = () => {
         purchasePackage,
       }: {
         purchasePackage: PurchasesPackage;
+        prefs: User_prefs;
       }) => Purchases.purchasePackage(purchasePackage),
       onSuccess: async (
         _,
@@ -20,8 +32,10 @@ export const useInAppPurchaseMutation = () => {
           purchasePackage: {
             product: { title, priceString },
           },
+          prefs,
         },
       ) => {
+        await saveUserPrefs(prefs);
         mixpanel.track(fpAnalyticsEventIds.subscribeToFpMembership, {
           plan: title,
           price: priceString,
@@ -39,7 +53,7 @@ export const useInAppPurchaseMutation = () => {
 
   const { mutate: restorePurchase, isPending: isRestorePurchaseLoading } =
     useMutation({
-      mutationFn: async () => {
+      mutationFn: async ({}: { prefs: User_prefs }) => {
         try {
           const customerInfo = await Purchases.restorePurchases();
           if (
@@ -52,6 +66,10 @@ export const useInAppPurchaseMutation = () => {
         } catch (e) {
           throw new Error(e.message ?? 'Failed to restore purchase');
         }
+      },
+      onSuccess: async (_, { prefs }) => {
+        await saveUserPrefs(prefs);
+        snackBar.SUCCESS('Purchase restored. Enjoy unlimited reading!');
       },
       onError: (error) => snackBar.ERROR(error.message),
     });

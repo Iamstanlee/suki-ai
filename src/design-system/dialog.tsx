@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 import { FpColor } from '@/design-system/color';
 import { FpSpacing } from '@/design-system/spacing';
 import { Dialog, PanningProvider } from 'react-native-ui-lib';
-import { X } from '@/design-system/icons';
 import Clickable from '@/design-system/components/clickable';
+import { X } from 'phosphor-react-native';
 
 export type FpDialogProps = {
   open: boolean;

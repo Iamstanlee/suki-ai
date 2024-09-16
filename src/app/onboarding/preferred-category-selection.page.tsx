@@ -8,6 +8,7 @@ import { ListItem } from 'react-native-ui-lib';
 import { FpColor } from '@/design-system/color';
 import { newsCategories } from '@/core/data/news-category';
 import { SubscriptionPageTag } from '@/app/subscription/subscription.page';
+import { User_prefs } from '@/core/types/user_prefs';
 
 export const PreferredCategorySelectionPageTag =
   'PreferredCategorySelectionPage';
@@ -15,13 +16,11 @@ export const PreferredCategorySelectionPageTag =
 export default function PreferredCategorySelectionPage({ route, navigation }) {
   const [selection, setSelection] = useState<string[]>([]);
 
-  const onChipPress = (ids: string[]) => {
-    const isSelected = ids.some((id) => selection.includes(id));
-
-    if (isSelected) {
-      setSelection(selection.filter((selectedId) => !ids.includes(selectedId)));
+  const onChipPress = (id: string) => {
+    if (selection.includes(id)) {
+      setSelection(selection.filter((selectedId) => selectedId !== id));
     } else {
-      setSelection([...selection, ...ids]);
+      setSelection([...selection, id]);
     }
   };
 
@@ -32,13 +31,13 @@ export default function PreferredCategorySelectionPage({ route, navigation }) {
       </FpText>
       <FpVSpace.md />
       {newsCategories.map((category, index) => {
-        const isSelected = selection.some((id) => category.ids.includes(id));
+        const isSelected = selection.includes(category.id);
 
         return (
           <ListItem
             key={category.name + index}
             style={[styles.listItem, isSelected && styles.selected]}
-            onPress={() => onChipPress(category.ids)}
+            onPress={() => onChipPress(category.id)}
           >
             <ListItem.Part>
               <FpText color={isSelected ? FpColor.white : FpColor.black}>
@@ -53,9 +52,9 @@ export default function PreferredCategorySelectionPage({ route, navigation }) {
         isDisabled={selection.length === 0}
         onPress={() =>
           navigation.navigate(SubscriptionPageTag, {
-            new_sources: route.params.news_sources,
-            preferred_category_ids: selection,
-          })
+            newsIds: route.params.news_sources,
+            categoryIds: selection,
+          } as User_prefs)
         }
       >
         Continue

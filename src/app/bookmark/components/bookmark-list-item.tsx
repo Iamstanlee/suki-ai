@@ -6,26 +6,26 @@ import { FpColor } from '@/design-system/color';
 import { Badge } from 'react-native-ui-lib';
 import { RectButton, Swipeable } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
+import { Feed } from '@/core/types/feed';
+import { formatAsDayMonthYear } from '@/core/utils/date';
 
 type Props = {
-  title: string;
-  subtitle: string;
-  date: string;
-  onPress?: () => void;
+  bookmark: Feed;
+  onPress: () => void;
+  onDelete: () => void;
 };
 
 export default function BookmarkListItem({
+  bookmark,
   onPress,
-  title,
-  subtitle,
-  date,
+  onDelete,
 }: Props) {
   return (
     <Swipeable
       overshootFriction={8}
       renderRightActions={() => {
         return (
-          <RectButton style={styles.rightAction} onPress={() => {}}>
+          <RectButton style={styles.rightAction} onPress={onDelete}>
             <Animated.Text style={styles.actionText}>Delete</Animated.Text>
           </RectButton>
         );
@@ -35,14 +35,14 @@ export default function BookmarkListItem({
         <View style={styles.column}>
           <View style={styles.badgeRow}>
             <Badge
-              label={'Health & Wellness'}
+              label={bookmark.category}
               labelStyle={styles.badge}
               borderColor={FpColor.black}
               size={24}
               backgroundColor={FpColor.primary500}
             />
             <Badge
-              label={'Substack'}
+              label={bookmark.source}
               labelStyle={styles.badge}
               borderColor={FpColor.black}
               size={24}
@@ -50,14 +50,14 @@ export default function BookmarkListItem({
             />
           </View>
           <FpText bold numberOfLines={2}>
-            {title}
+            {bookmark.title}
           </FpText>
           <FpText type='spanSm' numberOfLines={2} color={FpColor.black200}>
-            {subtitle}
+            {bookmark.text_summary}
           </FpText>
         </View>
         <FpText type='label' color={FpColor.black100}>
-          {date}
+          {formatAsDayMonthYear(bookmark.date)}
         </FpText>
       </Clickable>
     </Swipeable>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     paddingVertical: FpSpacing.lg,
+    paddingHorizontal: FpSpacing.md,
     borderBottomWidth: 0.4,
     borderBottomColor: '#f0f0f0',
   },

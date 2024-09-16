@@ -2,14 +2,14 @@ import { StyleSheet, View } from 'react-native';
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
 import FpText from '@/design-system/text';
 import { FpButton } from '@/design-system/button';
-import { OrangeSlice } from 'phosphor-react-native';
+import { FinnTheHuman } from 'phosphor-react-native';
 
 type Props = {
   header?: string;
   title: string;
   actionBtnText?: string;
   actionBtnOnPress?: () => void;
-  withSadFace?: boolean;
+  withIcon?: boolean;
   flexible?: boolean;
 };
 
@@ -18,12 +18,12 @@ export default function EmptyPage({
   title,
   actionBtnText,
   actionBtnOnPress,
-  withSadFace,
+  withIcon,
   flexible,
 }: Props) {
   return (
     <View style={[styles.container, flexible && { flex: 1 }]}>
-      {withSadFace && <OrangeSlice size={36} />}
+      {withIcon && <FinnTheHuman size={36} />}
       {header && (
         <>
           <FpVSpace.md />

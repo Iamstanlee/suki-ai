@@ -1,25 +1,18 @@
 import { useMemo } from 'react';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import { apiUrl } from '@/core/constants';
-import { useUser } from '@/core/context/user-context';
-import { notTrue } from '@/core/utils/boolean';
 
-export const useHttp = (externalEndpoint?: boolean) => {
-  const { session } = useUser();
-
+export const useHttp = () => {
   const http = useMemo(() => {
     return axios.create({
       baseURL: apiUrl,
       timeout: 15000,
       headers: {
         'Content-Type': 'application/json',
-        Accept: 'application/json',
-        ...(!!externalEndpoint == notTrue && {
-          'x-jwt-token': session?.access_token,
-        }),
+        'Accept': 'application/json',
       },
     });
-  }, [session?.access_token]);
+  }, []);
 
   return {
     get: async <T>(url: string) => {

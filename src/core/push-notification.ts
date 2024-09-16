@@ -1,13 +1,13 @@
 import { OneSignal, OSNotification } from 'react-native-onesignal';
-import { notTrue } from '@/core/utils/boolean';
-import { PushNotificationData } from '@/core/types/notification';
+
+import { PushNotification } from '@/core/types/notification';
 import _ from 'lodash';
 
 export const requestNotificationPermission = async (): Promise<boolean> => {
   try {
     return OneSignal.Notifications.requestPermission(true);
   } catch (e) {
-    return notTrue;
+    return false;
   }
 };
 
@@ -15,7 +15,7 @@ export const notificationPermissionGranted = async (): Promise<boolean> => {
   try {
     return OneSignal.Notifications.getPermissionAsync();
   } catch (e) {
-    return notTrue;
+    return false;
   }
 };
 
@@ -23,7 +23,7 @@ export const handleNotificationClickOnSystemTray = (
   notification: OSNotification,
   navigation: any,
 ) => {
-  const additionalData = notification.additionalData as PushNotificationData;
+  const additionalData = notification.additionalData as PushNotification;
 
   if (!additionalData['identifier']) return;
 

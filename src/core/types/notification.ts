@@ -1,4 +1,4 @@
-export type PushNotificationData = {
+export type PushNotification = {
   identifier: `system:${string}` | `news:${string}`;
   title?: string;
   subtitle?: string;

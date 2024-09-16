@@ -6,14 +6,14 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { notTrue } from '@/core/utils/boolean';
+
 import FpText from '@/design-system/text';
 import { StyleSheet, View } from 'react-native';
-import { CheckCircle } from '@/design-system/icons';
 import { FpColor } from '@/design-system/color';
 import { FpSpacing } from '@/design-system/spacing';
 import Animated, { useSharedValue, withSpring } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CheckCircle } from 'phosphor-react-native';
 
 type _SnackBarFactoryType = 'error' | 'info' | 'success';
 
@@ -25,7 +25,7 @@ type SnackBarState = {
 };
 
 const initialState: SnackBarState = {
-  open: notTrue,
+  open: false,
 };
 
 export const SnackBarContext =

@@ -1,29 +1,40 @@
 import { Dimensions, StyleSheet, View } from 'react-native';
 import FpText from '@/design-system/text';
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
-import { Heart, Link, ThumbsDown } from 'phosphor-react-native';
+import { Clock, Heart, Link, ThumbsDown } from 'phosphor-react-native';
 import { FpColor } from '@/design-system/color';
 import { Badge } from 'react-native-ui-lib';
-import { Clock } from '@/design-system/icons';
 import Clickable from '@/design-system/components/clickable';
+import { Feed } from '@/core/types/feed';
+import { formatAsDayMonthYear } from '@/core/utils/date';
 
 type Props = {
-  onReadFullStory?: () => void;
+  feed: Feed;
+  onReadFullStoryPress?: () => void;
+  onSaveBookmarkPress?: () => void;
+  onDeleteBookmarkPress?: () => void;
+  isBookmarked?: boolean;
 };
 
-export default function NewsListItem({ onReadFullStory }: Props) {
+export default function NewsListItem({
+  feed,
+  onReadFullStoryPress,
+  isBookmarked,
+  onSaveBookmarkPress,
+  onDeleteBookmarkPress,
+}: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.badgeRow}>
         <Badge
-          label={'Health & Wellness'}
+          label={feed.category}
           labelStyle={styles.badge}
           borderColor={FpColor.black}
           size={24}
           backgroundColor={FpColor.primary500}
         />
         <Badge
-          label={'Substack'}
+          label={feed.source}
           labelStyle={styles.badge}
           borderColor={FpColor.black}
           size={24}
@@ -32,32 +43,21 @@ export default function NewsListItem({ onReadFullStory }: Props) {
       </View>
       <FpVSpace.md />
       <FpText type='h5' left>
-        Daily feed of insights extracted from your go-to sources
+        {feed.title}
       </FpText>
       <FpVSpace.xs />
       <View style={styles.row}>
-        <Clock size={12} color={FpColor.black200} />
+        <Clock size={12} color={FpColor.black200} weight='fill' />
         <FpText type='spanXs' color={FpColor.black100}>
-          8th Sept 2024
+          {formatAsDayMonthYear(feed.date)}
         </FpText>
       </View>
       <FpVSpace.md />
-      <FpText left numberOfLines={20}>
-        Suki is the mobile app that brings together your newsletters, research
-        papers, podcasts, and more, in one place Suki is the mobile app that
-        brings together your newsletters, research papers, podcasts, and more,
-        in one place Suki is the mobile app that brings together your
-        newsletters, research papers, podcasts, and more, in one place Suki is
-        the mobile app that brings together your newsletters, research papers,
-        podcasts, and more, in one place Suki is the mobile app that brings
-        together your newsletters, research papers, podcasts, and more, in one
-        place Suki is the mobile app that brings together your newsletters,
-        research papers, podcasts, and more, in one place Suki is the mobile app
-        that brings together your newsletters, research papers, podcasts, and
-        more, in one place
+      <FpText left numberOfLines={24}>
+        {feed.text_summary}
       </FpText>
       <FpVSpace.xs />
-      <Clickable onPress={onReadFullStory}>
+      <Clickable onPress={onReadFullStoryPress}>
         <FpText color={FpColor.primary500} underline>
           Read Full Story
         </FpText>
@@ -65,7 +65,15 @@ export default function NewsListItem({ onReadFullStory }: Props) {
       <View style={styles.actionRow}>
         <ThumbsDown size={50} weight='thin' />
         <Link size={50} weight='thin' />
-        <Heart size={50} weight='thin' />
+        <Clickable
+          onPress={isBookmarked ? onDeleteBookmarkPress : onSaveBookmarkPress}
+        >
+          <Heart
+            color={isBookmarked ? FpColor.primary500 : FpColor.black}
+            size={50}
+            weight={isBookmarked ? 'fill' : 'thin'}
+          />
+        </Clickable>
       </View>
     </View>
   );

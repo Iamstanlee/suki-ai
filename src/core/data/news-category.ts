@@ -1,167 +1,167 @@
 export type NewsCategory = {
-  ids: string[];
+  id: string;
   name: string;
 };
 
 export const newsCategories: NewsCategory[] = [
   {
-    ids: ['business'],
+    id: 'business',
     name: 'Business',
   },
   {
-    ids: ['entertainment'],
+    id: 'entertainment',
     name: 'Entertainment',
   },
   {
-    ids: ['food'],
+    id: 'food',
     name: 'Food & Drinks',
   },
   {
-    ids: ['science'],
+    id: 'science',
     name: 'Science',
   },
   {
-    ids: ['sports'],
+    id: 'sports',
     name: 'Sports',
   },
   {
-    ids: ['technology'],
+    id: 'technology',
     name: 'Technology',
   },
   {
-    ids: ['culture'],
+    id: 'culture',
     name: 'Culture',
   },
   {
-    ids: ['finance'],
+    id: 'finance',
     name: 'Finance',
   },
   {
-    ids: ['lifestyle'],
+    id: 'lifestyle',
     name: 'Lifestyle',
   },
   {
-    ids: ['music'],
+    id: 'music',
     name: 'Music',
   },
   {
-    ids: ['design'],
+    id: 'design',
     name: 'Design',
   },
   {
-    ids: ['crypto'],
+    id: 'crypto',
     name: 'Crypto',
   },
   {
-    ids: ['education'],
+    id: 'education',
     name: 'Education',
   },
   {
-    ids: ['history'],
+    id: 'history',
     name: 'History',
   },
   {
-    ids: ['travel'],
+    id: 'travel',
     name: 'Travel',
   },
   {
-    ids: ['health-and-wellness'],
+    id: 'health-and-wellness',
     name: 'Health & Wellness',
   },
   {
-    ids: ['politics'],
+    id: 'politics',
     name: 'Politics',
   },
   {
-    ids: ['environment'],
+    id: 'environment',
     name: 'Environment',
   },
   {
-    ids: ['books'],
+    id: 'books',
     name: 'Books',
   },
   {
-    ids: ['parenting'],
+    id: 'parenting',
     name: 'Parenting',
   },
   {
-    ids: ['gaming'],
+    id: 'gaming',
     name: 'Gaming',
   },
   {
-    ids: ['photography'],
+    id: 'photography',
     name: 'Photography',
   },
   {
-    ids: ['automotive'],
+    id: 'automotive',
     name: 'Automotive',
   },
   {
-    ids: ['real-estate'],
+    id: 'real-estate',
     name: 'Real Estate',
   },
   {
-    ids: ['fitness'],
+    id: 'fitness',
     name: 'Fitness',
   },
   {
-    ids: ['beauty'],
+    id: 'beauty',
     name: 'Beauty',
   },
   {
-    ids: ['fashion'],
+    id: 'fashion',
     name: 'Fashion',
   },
   {
-    ids: ['movies', 'tv'],
+    id: 'movies',
     name: 'Movies & TV',
   },
   {
-    ids: ['parenting'],
+    id: 'parenting',
     name: 'Parenting',
   },
   {
-    ids: ['relationships'],
+    id: 'relationships',
     name: 'Relationships',
   },
   {
-    ids: ['self-improvement'],
+    id: 'self-improvement',
     name: 'Self Improvement',
   },
   {
-    ids: ['productivity'],
+    id: 'productivity',
     name: 'Productivity',
   },
   {
-    ids: ['marketing'],
+    id: 'marketing',
     name: 'Marketing',
   },
   {
-    ids: ['startups'],
+    id: 'startups',
     name: 'Startups',
   },
   {
-    ids: ['entrepreneurship'],
+    id: 'entrepreneurship',
     name: 'Entrepreneurship',
   },
   {
-    ids: ['innovation'],
+    id: 'innovation',
     name: 'Innovation',
   },
   {
-    ids: ['leadership'],
+    id: 'leadership',
     name: 'Leadership',
   },
   {
-    ids: ['management'],
+    id: 'management',
     name: 'Management',
   },
   {
-    ids: ['investing'],
+    id: 'investing',
     name: 'Investing',
   },
   {
-    ids: ['ai'],
+    id: 'ai',
     name: 'AI',
   },
 ];

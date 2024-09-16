@@ -8,8 +8,8 @@ import { FpColor } from '@/design-system/color';
 import FpText, { FpTextProps } from '@/design-system/text';
 import { FpHSpace } from '@/design-system/spacing';
 import { useNavigation } from '@react-navigation/native';
-import { ArrowLeft } from '@/design-system/icons';
 import { ReactNode } from 'react';
+import { ArrowLeft } from 'phosphor-react-native';
 
 type FpButtonProps = {
   type?: 'primary' | 'light' | 'dark';

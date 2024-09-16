@@ -83,6 +83,7 @@ export const UserConsumer = UserContext.Consumer;
 export const subscriptionEntitlementId = 'Pro';
 
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
+  const [initialized, setInitialized] = useState(false);
   const [state, setState] = useState<Partial<UserState>>(initialUserState);
   const navigation = useNavigation();
 
@@ -102,10 +103,12 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     // Mixpanel
     mixpanel.init();
     mixpanel.track(fpAnalyticsEventIds.appLaunch);
+    setInitialized(true);
   }, []);
 
   // Check subscription
   useEffect(() => {
+    if (!initialized) return;
     (async () => {
       try {
         const [userId, customerInfo] = await Promise.all([
@@ -149,7 +152,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         });
       }
     })();
-  }, []);
+  }, [initialized]);
 
   const saveBootstrapState = (state?: IBootstrapState) => {
     setState({

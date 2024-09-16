@@ -4,40 +4,33 @@ import FpBottomSheetModal, {
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import FpText from '@/design-system/text';
-import { Clock } from '@/design-system/icons';
 import { FpColor } from '@/design-system/color';
+import { Feed } from '@/core/types/feed';
+import { Clock } from 'phosphor-react-native';
+import { formatAsDayMonthYear } from '@/core/utils/date';
 
 export default function FullstoryBottomsheetModal(
-  props: FpBottomSheetModalProps,
+  props: FpBottomSheetModalProps & { feed?: Feed },
 ) {
+  const feed = props.feed;
+
+  if (!feed) return <View />;
+
   return (
     <FpBottomSheetModal {...props} scrollable snapPoints={['75%', '95%']}>
       <ScrollView>
         <FpText type='h5' left>
-          Daily feed of insights extracted from your go-to sources
+          {feed.title}
         </FpText>
         <FpVSpace.xs />
         <View style={styles.row}>
-          <Clock size={12} color={FpColor.black200} />
+          <Clock size={12} color={FpColor.black200} weight='fill' />
           <FpText type='spanXs' color={FpColor.black100}>
-            8th Sept 2024
+            {formatAsDayMonthYear(feed.date)}
           </FpText>
         </View>
         <FpVSpace.md />
-        <FpText>
-          Suki is the mobile app that brings together your newsletters, research
-          papers, podcasts, and more, in one place Suki is the mobile app that
-          brings together your newsletters, research papers, podcasts, and more,
-          in one place Suki is the mobile app that brings together your
-          newsletters, research papers, podcasts, and more, in one place Suki is
-          the mobile app that brings together your newsletters, research papers,
-          podcasts, and more, in one place Suki is the mobile app that brings
-          together your newsletters, research papers, podcasts, and more, in one
-          place Suki is the mobile app that brings together your newsletters,
-          research papers, podcasts, and more, in one place Suki is the mobile
-          app that brings together your newsletters, research papers, podcasts,
-          and more, in one place
-        </FpText>
+        <FpText>{feed.fullstory}</FpText>
       </ScrollView>
     </FpBottomSheetModal>
   );

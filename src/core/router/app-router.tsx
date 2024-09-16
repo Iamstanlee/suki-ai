@@ -1,4 +1,3 @@
-import { notTrue } from '@/core/utils/boolean';
 import { Platform } from 'react-native';
 import { FpColor } from '@/design-system/color';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -33,7 +32,7 @@ export default function AppRouter({
 }) {
   return bootstrapState.select({
     'authenticated': (
-      <StackRouter.Navigator screenOptions={{ headerShown: notTrue }}>
+      <StackRouter.Navigator screenOptions={{ headerShown: false }}>
         <StackRouter.Screen name='_tab' component={_TabNavigator} />
         <StackRouter.Screen
           navigationKey={`${bootstrapState.type}`}
@@ -43,7 +42,7 @@ export default function AppRouter({
       </StackRouter.Navigator>
     ),
     'no-active-subscription': (
-      <StackRouter.Navigator screenOptions={{ headerShown: notTrue }}>
+      <StackRouter.Navigator screenOptions={{ headerShown: false }}>
         <StackRouter.Screen
           name={OnboardingPageTag}
           component={OnboardingPage}
@@ -97,7 +96,7 @@ function _TabNavigator() {
         },
         tabBarActiveTintColor: FpColor.primary500,
         tabBarInactiveTintColor: FpColor.black100,
-        headerShown: notTrue,
+        headerShown: false,
       })}
     >
       <TabRouter.Screen name={HomePageTag} component={HomePage} />

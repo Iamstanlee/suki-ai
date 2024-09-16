@@ -17,8 +17,8 @@ import {
   Picker,
   PickerItemProps,
 } from 'react-native-ui-lib';
-import { CalendarBlank, CaretDown } from '@/design-system/icons';
 import { formatAsDayMonthYear } from '@/core/utils/date';
+import { CalendarBlank, CaretDown } from 'phosphor-react-native';
 
 type FpTextInputProps<T> = {
   onChangeText?: (text: string) => void;

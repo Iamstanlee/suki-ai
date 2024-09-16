@@ -1,10 +1,15 @@
 import { ReactNode } from 'react';
-import { Platform, ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { FpSpacing } from '@/design-system/spacing';
 import FpStatusBar from '@/design-system/status-bar';
 import { FpBackIconButton } from '@/design-system/button';
 import { FpColor } from '@/design-system/color';
-import { notTrue } from '@/core/utils/boolean';
 
 type FpScaffoldProps = {
   children: ReactNode;
@@ -15,6 +20,7 @@ type FpScaffoldProps = {
   withZeroPadding?: boolean;
   scrollRef?: any;
   bottonType?: 'light' | 'dark';
+  isLoading?: boolean;
 };
 
 export default function FpScaffold({
@@ -26,6 +32,7 @@ export default function FpScaffold({
   type,
   scrollRef,
   bottonType,
+  isLoading,
 }: FpScaffoldProps) {
   const bgTheme = type === 'dark' ? styles.dark : styles.light;
   const hPadding = withZeroPadding ? 0 : FpSpacing.md;
@@ -44,11 +51,20 @@ export default function FpScaffold({
   const _BackButton = withBackButton && !appBar && (
     <View
       style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         paddingVertical: FpSpacing.md,
         ...(scrollable && { paddingHorizontal: FpSpacing.md }),
       }}
     >
       <FpBackIconButton type={bottonType} />
+      {isLoading && (
+        <ActivityIndicator
+          size={27}
+          color={type == 'dark' ? FpColor.white : FpColor.black}
+        />
+      )}
     </View>
   );
 
@@ -59,7 +75,7 @@ export default function FpScaffold({
       {_AppBar}
       <ScrollView
         ref={scrollRef}
-        showsVerticalScrollIndicator={notTrue}
+        showsVerticalScrollIndicator={false}
         style={{ paddingHorizontal: hPadding }}
       >
         {children}

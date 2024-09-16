@@ -11,9 +11,9 @@ import { PurchasesPackage } from 'react-native-purchases';
 import PlanItem, {
   PlanItem_Skeleton,
 } from '@/app/subscription/components/plan-item';
-import { Check } from '@/design-system/icons';
 import Clickable from '@/design-system/components/clickable';
 import { useMemo } from 'react';
+import { Check } from 'phosphor-react-native';
 
 export const SubscriptionPageTag = 'Subscription';
 
@@ -28,21 +28,22 @@ export default function SubscriptionPage({ route }) {
     isRestorePurchaseLoading,
   } = useInAppPurchaseMutation();
 
-  console.log('onBoardingParams', params);
-
   const onPurchase = (subscriptionPackage: PurchasesPackage) => {
     purchaseProduct(
-      { purchasePackage: subscriptionPackage },
+      { purchasePackage: subscriptionPackage, prefs: params },
       { onSuccess: () => saveBootstrapState() },
     );
   };
 
   const onRestorePurchase = () => {
-    restorePurchase(undefined, {
-      onSuccess: () => {
-        saveBootstrapState();
+    restorePurchase(
+      { prefs: params },
+      {
+        onSuccess: () => {
+          saveBootstrapState();
+        },
       },
-    });
+    );
   };
 
   const isPurchaseOrRestoreLoading = useMemo(
@@ -51,7 +52,12 @@ export default function SubscriptionPage({ route }) {
   );
 
   return (
-    <FpScaffold scrollable type='dark' withBackButton>
+    <FpScaffold
+      scrollable
+      type='dark'
+      withBackButton
+      isLoading={isPurchaseOrRestoreLoading}
+    >
       <FpText type='h5' color={FpColor.white}>
         Get unlimited reading with a subscription.
       </FpText>
