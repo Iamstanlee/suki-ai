@@ -1,4 +1,4 @@
-name: Build, Preview & Submit with EAS
+name: EAS build workflow
 on:
   workflow_dispatch:
     inputs:
@@ -29,6 +29,14 @@ on:
         description: Whether to perform the submit step
         required: true
         default: false
+      build_archive:
+        type: choice
+        description: Used to determine the file extension of the build archive in the submit step
+        required: true
+        options:
+          - apk
+          - aab
+          - ipa
 
 permissions:
   contents: write
@@ -72,11 +80,20 @@ jobs:
           eas build --local \
             --non-interactive \
             --platform=${{ github.event.inputs.platform }} \
-            --profile=${{ github.event.inputs.profile }}
+            --profile=${{ github.event.inputs.profile }} \
+            --output=${{ github.event.inputs.platform }}-release
 
-      #      - name: 🚢 Submit
-      #        if: ${{ github.event.inputs.should_submit == true}}
-      #        run: eas submit -p ${{ github.event.inputs.platform }} --profile ${{ github.event.inputs.profile }} --path build-*.ipa
+      - name: 📦 Archive build
+        run: |
+          mv ${{ github.event.inputs.platform }}-release ${{ github.event.inputs.platform }}-release.${{ github.event.inputs.build_archive }}
+
+      - name: 🚢 Submit app
+        if: github.event.inputs.should_submit
+        run: |
+          eas submit \
+              --platform=${{ github.event.inputs.platform }} \
+              --profile=${{ github.event.inputs.profile }} \
+              --path ${{ github.event.inputs.platform }}-release.${{ github.event.inputs.build_archive }}
 
       - name: Bump version and push tag
         id: tag_version
@@ -90,4 +107,4 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}-${{ github.event.inputs.platform }}-${{ github.event.inputs.profile }}
           name: ${{ steps.tag_version.outputs.new_tag }}-${{ github.event.inputs.platform }}-${{ github.event.inputs.profile }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          artifacts: '*.ipa, *.apk, *.aab, *.app'
+          artifacts: '*.ipa, *.apk, *.aab'
