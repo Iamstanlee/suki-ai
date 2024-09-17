@@ -24,20 +24,6 @@
           "smallIcons": ["./assets/ic_stat_onesignal_default.png"]
         }
       ],
-      [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to show you vendors based on your current location",
-          "locationAlwaysPermission": "Allow $(PRODUCT_NAME) to show you vendors based on your current location",
-          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to show you vendors based on your current location"
-        }
-      ],
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "The app accesses your photos to let you upload profile picture."
-        }
-      ],
       "expo-font"
     ],
     "name": "Suki AI",
@@ -121,10 +107,10 @@
               "appExtensions": [
                 {
                   "targetName": "OneSignalNotificationServiceExtension",
-                  "bundleIdentifier": "com.suki-ai.OneSignalNotificationServiceExtension",
+                  "bundleIdentifier": "com.sukiai.OneSignalNotificationServiceExtension",
                   "entitlements": {
                     "com.apple.security.application-groups": [
-                      "group.com.suki-ai.onesignal"
+                      "group.com.sukiai.onesignal"
                     ]
                   }
                 }
@@ -132,9 +118,8 @@
             }
           }
         },
-        "projectId": "cb16683e-beee-40a9-ad83-8ba41b27dc7b"
+        "projectId": "7d6950b5-dc68-4ebc-9303-1ba77082c073"
       }
-    },
-    "owner": "suki-ai"
+    }
   }
 }
