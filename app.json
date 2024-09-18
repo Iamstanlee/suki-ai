@@ -44,7 +44,8 @@
       "bundleIdentifier": "com.sukiai",
       "infoPlist": {
         "LSApplicationQueriesSchemes": ["sms", "tel", "mailto", "http", "https"]
-      }
+      },
+      "ITSAppUsesNonExemptEncryption": false
     },
     "android": {
       "adaptiveIcon": {

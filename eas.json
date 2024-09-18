@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 7.6.1"
+    "version": ">= 7.6.1",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -21,9 +22,12 @@
       "android": {
         "buildType": "apk"
       },
+      "ios": {
+        "credentialsSource": "local"
+      },
       "distribution": "internal",
       "env": {
-        "EXPO_PUBLIC_BASE_URL": "https://prod-api.usesuki.com",
+        "EXPO_PUBLIC_BASE_URL": "https://suki-be.fly.dev",
         "EXPO_PUBLIC_ONESIGNAL_APPID": "67917001-7afd-4ea8-bc25-70c2c24d2ecd",
         "EXPO_PUBLIC_MIXPANEL_TOKEN": "ace1c6df2fe3eeae8c89b7d4f53c8b4d"
       },
@@ -39,6 +43,13 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios": {
+        "ascAppId": "6695746322",
+        "ascApiKeyPath": "certs/AuthKey_48YZ9M532P.p8",
+        "ascApiKeyIssuerId": "c6cff5f2-5ecd-4e13-a15b-d02d75239474",
+        "ascApiKeyId": "48YZ9M532P"
+      }
+    }
   }
 }

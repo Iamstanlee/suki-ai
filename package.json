@@ -54,7 +54,8 @@
     "react-native-svg": "15.2.0",
     "react-native-tab-view": "^3.5.2",
     "react-native-ui-lib": "^7.24.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "react-native-webview": "13.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
