@@ -88,13 +88,13 @@ jobs:
         run: |
           mv ${{ github.event.inputs.platform }}-release ${{ github.event.inputs.platform }}-release.${{ github.event.inputs.build_archive }}
 
-      - name: 🚢 Submit app
-        if: github.event.inputs.should_submit
-        run: |
-          eas submit \
-              --platform=${{ github.event.inputs.platform }} \
-              --profile=${{ github.event.inputs.profile }} \
-              --path ${{ github.event.inputs.platform }}-release.${{ github.event.inputs.build_archive }}
+      #      - name: 🚢 Submit app
+      #        if: github.event.inputs.should_submit
+      #        run: |
+      #          eas submit \
+      #              --platform=${{ github.event.inputs.platform }} \
+      #              --profile=${{ github.event.inputs.profile }} \
+      #              --path ${{ github.event.inputs.platform }}-release.${{ github.event.inputs.build_archive }}
 
       - name: Bump version and push tag
         id: tag_version

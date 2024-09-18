@@ -17,13 +17,6 @@
           }
         }
       ],
-      [
-        "onesignal-expo-plugin",
-        {
-          "mode": "production",
-          "smallIcons": ["./assets/ic_stat_onesignal_default.png"]
-        }
-      ],
       "expo-font"
     ],
     "name": "Suki AI",
@@ -102,23 +95,6 @@
     },
     "extra": {
       "eas": {
-        "build": {
-          "experimental": {
-            "ios": {
-              "appExtensions": [
-                {
-                  "targetName": "OneSignalNotificationServiceExtension",
-                  "bundleIdentifier": "com.sukiai.OneSignalNotificationServiceExtension",
-                  "entitlements": {
-                    "com.apple.security.application-groups": [
-                      "group.com.sukiai.onesignal"
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        },
         "projectId": "7d6950b5-dc68-4ebc-9303-1ba77082c073"
       }
     },
