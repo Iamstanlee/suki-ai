@@ -7,6 +7,8 @@ import { Badge } from 'react-native-ui-lib';
 import Clickable from '@/design-system/components/clickable';
 import { Feed } from '@/core/types/feed';
 import { formatAsDayMonthYear } from '@/core/utils/date';
+import { useMMKVBoolean } from 'react-native-mmkv';
+import { storage } from '@/core/storage';
 
 type Props = {
   feed: Feed;
@@ -14,6 +16,7 @@ type Props = {
   onSaveBookmarkPress?: () => void;
   onDeleteBookmarkPress?: () => void;
   isBookmarked?: boolean;
+  onShareContent?: () => void;
 };
 
 export default function NewsListItem({
@@ -22,7 +25,13 @@ export default function NewsListItem({
   isBookmarked,
   onSaveBookmarkPress,
   onDeleteBookmarkPress,
+  onShareContent,
 }: Props) {
+  const [disliked, setDisliked] = useMMKVBoolean(
+    `disliked:${feed.id}`,
+    storage.store,
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.badgeRow}>
@@ -63,8 +72,16 @@ export default function NewsListItem({
         </FpText>
       </Clickable>
       <View style={styles.actionRow}>
-        <ThumbsDown size={50} weight='thin' />
-        <Link size={50} weight='thin' />
+        <Clickable onPress={() => setDisliked(!disliked)}>
+          <ThumbsDown
+            color={disliked ? FpColor.gray500 : FpColor.black}
+            weight={disliked ? 'fill' : 'thin'}
+            size={50}
+          />
+        </Clickable>
+        <Clickable onPress={onShareContent}>
+          <Link size={50} weight='thin' />
+        </Clickable>
         <Clickable
           onPress={isBookmarked ? onDeleteBookmarkPress : onSaveBookmarkPress}
         >

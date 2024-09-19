@@ -14,6 +14,7 @@ import PlanItem, {
 import Clickable from '@/design-system/components/clickable';
 import { useMemo } from 'react';
 import { Check } from 'phosphor-react-native';
+import { openUrl } from '@/app/settings/settings.page';
 
 export const SubscriptionPageTag = 'Subscription';
 
@@ -53,7 +54,6 @@ export default function SubscriptionPage({ route }) {
 
   return (
     <FpScaffold
-      scrollable
       type='dark'
       withBackButton
       isLoading={isPurchaseOrRestoreLoading}
@@ -118,7 +118,28 @@ export default function SubscriptionPage({ route }) {
           </FpButton>
         </>
       )}
-      <FpVSpace.xl />
+      <FpVSpace.max />
+      <View style={styles.policyRow}>
+        <FpText type='label' color={FpColor.primary100}>
+          By continuing, You agree to Suki AI's
+        </FpText>
+        <Clickable onPress={() => openUrl('https://getsuki.xyz/terms')}>
+          <FpText type='label' color={FpColor.primary100} underline>
+            Terms of Use
+          </FpText>
+        </Clickable>
+        <FpText type='label' color={FpColor.primary100}>
+          and
+        </FpText>
+        <Clickable
+          onPress={() => openUrl('https://getsuki.xyz/privacy-policy')}
+        >
+          <FpText type='label' color={FpColor.primary100} underline>
+            Privacy Policy
+          </FpText>
+        </Clickable>
+      </View>
+      <FpVSpace.md />
     </FpScaffold>
   );
 }
@@ -136,5 +157,10 @@ const styles = StyleSheet.create({
     gap: FpSpacing.md,
     alignItems: 'center',
     marginBottom: FpSpacing.sm,
+  },
+  policyRow: {
+    flexDirection: 'row',
+    gap: FpSpacing.xs,
+    flexWrap: 'wrap',
   },
 });

@@ -63,17 +63,6 @@ class MMKV_STORAGE implements IStorage {
   }
 }
 
-export const storageKey = {
-  user: {
-    token: 'user.token',
-    data: 'user.data',
-    signupData: 'user.signupData',
-  },
-  vendor: {
-    recentSearch: 'vendor.recentsearch',
-  },
-};
-
 export const storage = new MMKV_STORAGE();
 
 export const mixPanelStorage = new MMVK_MIXPANEL_STORAGE();

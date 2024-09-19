@@ -50,7 +50,8 @@ export default function PlanItem(props: SelectableSubscriptionPlan) {
         </FpText>
       </View>
       <FpText type='label' color={FpColor.white}>
-        Billed {product.subscriptionPeriod == 'P1Y' ? 'annually' : 'monthly'}
+        Auto-renews and Billed{' '}
+        {product.subscriptionPeriod == 'P1Y' ? 'annually' : 'monthly'}
       </FpText>
     </Clickable>
   );

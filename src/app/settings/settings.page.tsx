@@ -3,23 +3,18 @@ import FpText from '@/design-system/text';
 import { Linking, StyleSheet, View } from 'react-native';
 import { FpSpacing, FpVSpace } from '@/design-system/spacing';
 import Clickable from '@/design-system/components/clickable';
-import { useSnackBar } from '@/core/context/snackbar-context';
 import { SubscriptionPageTag } from '@/app/subscription/subscription.page';
 
 export const SettingsPageTag = 'Settings';
 
+export const openUrl = async (url: string) => {
+  const supported = await Linking.canOpenURL(url);
+  if (supported) {
+    await Linking.openURL(url);
+  }
+};
+
 export default function SettingsPage({ navigation }) {
-  const snackBar = useSnackBar();
-
-  const openUrl = async (url: string) => {
-    const supported = await Linking.canOpenURL(url);
-    if (supported) {
-      await Linking.openURL(url);
-    } else {
-      snackBar.INFO('Could not open url.');
-    }
-  };
-
   const _Item = ({
     title,
     onPress,

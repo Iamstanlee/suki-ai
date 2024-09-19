@@ -9,9 +9,9 @@ export const apiUrl: string = Platform.select({
 
 export const revenueCatKey: string = Platform.select({
   ios: 'appl_FRScZWIDKRfWVdaKxMuziAmxyql',
-  android: '_n/a_',
+  android: 'goog_jvULQYXmKmkpeNQDzRbYVNmaTLk',
 });
-// c6cff5f2-5ecd-4e13-a15b-d02d75239474
+
 export const onesignalAppId: string = process.env.EXPO_PUBLIC_ONESIGNAL_APPID;
 
 export const mixpanel = new Mixpanel(

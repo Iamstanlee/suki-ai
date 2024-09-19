@@ -1,5 +1,4 @@
 import { FlatList, StyleSheet, View } from 'react-native';
-
 import NewsListItem from '@/app/home/components/news-list-item';
 import FpStatusBar from '@/design-system/status-bar';
 import { FpColor } from '@/design-system/color';
@@ -11,6 +10,7 @@ import { Feed } from '@/core/types/feed';
 import EmptyPage from '@/design-system/components/empty-page';
 import { useGetBookmarksQuery } from '@/app/bookmark/hooks/use-get-bookmarks-query';
 import { useSaveBookmarkMutation } from '@/app/bookmark/hooks/use-save-bookmark-mutation';
+import { useShareInsights } from '@/app/home/hooks/use-share-insights';
 
 export const HomePageTag = 'For you';
 
@@ -20,6 +20,7 @@ export default function HomePage() {
   const [currentStory, setCurrentStory] = useState<Feed>();
   const { bookmarks } = useGetBookmarksQuery();
   const { saveBookmark, deleteBookmark } = useSaveBookmarkMutation();
+  const { share } = useShareInsights();
 
   const bookmarkIds = useMemo(
     () => bookmarks?.map((feed) => feed.id),
@@ -67,6 +68,9 @@ export default function HomePage() {
               setBottomSheetOpen(true);
               setCurrentStory(item);
             }}
+            onShareContent={() =>
+              share({ title: item.title, content: item.text_summary })
+            }
           />
         )}
       />
