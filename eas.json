@@ -39,7 +39,8 @@
         "buildType": "app-bundle"
       },
       "distribution": "store",
-      "channel": "production"
+      "channel": "production",
+      "autoIncrement": true
     }
   },
   "submit": {
