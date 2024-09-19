@@ -47,11 +47,11 @@ export default function SettingsPage({ navigation }) {
       />
       <_Item
         title='Terms Of Service'
-        onPress={() => openUrl('https://usesuki.com/terms')}
+        onPress={() => openUrl('https://getsuki.xyz/terms')}
       />
       <_Item
         title='Privacy Policy'
-        onPress={() => openUrl('https://usesuki.com/privacy-policy')}
+        onPress={() => openUrl('https://getsuki.xyz/privacy-policy')}
       />
       <FpVSpace.md />
     </FpScaffold>

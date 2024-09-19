@@ -36,9 +36,15 @@
       "runtimeVersion": "1.0.0",
       "bundleIdentifier": "com.sukiai",
       "infoPlist": {
-        "LSApplicationQueriesSchemes": ["sms", "tel", "mailto", "http", "https"]
-      },
-      "ITSAppUsesNonExemptEncryption": false
+        "LSApplicationQueriesSchemes": [
+          "sms",
+          "tel",
+          "mailto",
+          "http",
+          "https"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
